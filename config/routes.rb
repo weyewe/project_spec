@@ -17,6 +17,8 @@ Ticketie::Application.routes.draw do
     get 'search_phase' => 'phases#search', :as => :search_phase, :method => :get
     get 'search_spec' => 'specs#search', :as => :search_spec, :method => :get
     
+    get 'search_customer' => 'customers#search', :as => :search_customer, :method => :get
+    
     get 'search_pre_condition' => 'pre_conditions#search', :as => :search_pre_condition, :method => :get
     get 'search_post_condition' => 'post_conditions#search', :as => :search_post_condition, :method => :get
     

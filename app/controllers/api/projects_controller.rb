@@ -4,7 +4,7 @@ class Api::ProjectsController < Api::BaseApiController
     
     if params[:livesearch].present? 
       livesearch = "%#{params[:livesearch]}%"
-      @objects = Project.active_objects.where{
+      @objects = Project.joins(:customer).active_objects.where{
         (is_deleted.eq false) & 
         (
           (name =~  livesearch )  
@@ -20,7 +20,7 @@ class Api::ProjectsController < Api::BaseApiController
         
       }.count
     else
-      @objects = Project.active_objects.page(params[:page]).per(params[:limit]).order("id DESC")
+      @objects = Project.joins(:customer).active_objects.page(params[:page]).per(params[:limit]).order("id DESC")
       @total = Project.active_objects.count
     end
     

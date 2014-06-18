@@ -89,6 +89,18 @@ Ext.define("AM.controller.Master", {
 						action : 'index'
 					}
 				]
+			},
+			{ 
+				text:'Project AA', 
+				viewClass:'AM.view.master.Project', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'projects',
+						action : 'index'
+					}
+				]
 			} 
     ]
 	},
@@ -108,6 +120,18 @@ Ext.define("AM.controller.Master", {
 				conditions : [
 					{
 						controller : 'items',
+						action : 'index'
+					}
+				]
+			},
+			{ 
+				text:'Group', 
+				viewClass:'AM.view.master.Group', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'groups',
 						action : 'index'
 					}
 				]
