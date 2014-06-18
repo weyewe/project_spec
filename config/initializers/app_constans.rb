@@ -113,3 +113,8 @@ SOLUTION_CASE = {
   :pending => 1,
   :solved =>  2    # 
 }
+
+SPEC_CASE = {
+  :pre => 0 ,
+  :post => 1 
+}

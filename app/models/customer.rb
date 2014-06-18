@@ -6,6 +6,8 @@ class Customer < ActiveRecord::Base
   has_many :items
   has_many :contract_maintenances
   
+  has_many :projects
+  
  
   
   def self.create_object( params ) 

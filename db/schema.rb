@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140508082817) do
+ActiveRecord::Schema.define(version: 20140618100036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "conditions", force: true do |t|
+    t.integer  "phase_id"
+    t.integer  "project_id"
+    t.string   "code"
+    t.text     "description"
+    t.integer  "case"
+    t.boolean  "is_deleted",  default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "contract_items", force: true do |t|
     t.integer  "contract_maintenance_id"
@@ -44,6 +55,16 @@ ActiveRecord::Schema.define(version: 20140508082817) do
     t.text     "contact"
     t.string   "email"
     t.boolean  "is_deleted", default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "groups", force: true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.text     "description"
+    t.integer  "project_id"
+    t.boolean  "is_deleted",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -86,6 +107,36 @@ ActiveRecord::Schema.define(version: 20140508082817) do
     t.integer  "solution_case",           default: 0
     t.datetime "finish_date"
     t.boolean  "is_confirmed",            default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "parts", force: true do |t|
+    t.integer  "group_id"
+    t.string   "name"
+    t.string   "code"
+    t.text     "description"
+    t.boolean  "is_deleted",  default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "phases", force: true do |t|
+    t.integer  "group_id"
+    t.string   "name"
+    t.string   "code"
+    t.text     "description"
+    t.integer  "part_id"
+    t.boolean  "is_deleted",  default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "projects", force: true do |t|
+    t.integer  "customer_id"
+    t.string   "name"
+    t.text     "description"
+    t.boolean  "is_deleted",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

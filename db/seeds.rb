@@ -141,3 +141,68 @@ data_entry_role = Role.create!(
   puts "Total ContractItem: #{ContractItem.all.count}"
   
   
+  puts "\n\n============> Project Spec here \n"
+  
+  project = Project.create_object(
+    :name =>  "Zengra",
+    :description => "Awesome first project",
+    :customer_id => Customer.first.id
+  )
+  
+  puts "Total project: #{Project.count}"
+  
+  ["O","M","K"].each do |code|
+    Group.create_object(
+      :name => "Group #{code}",
+      :code => code ,
+      :description => "Awesome Group #{code}",
+      :project_id => project.id 
+    )
+  end
+  
+  puts "Total group: #{Group.count}"
+  
+  Group.all.each do |group|
+    a = Part.create_object(
+      :name => "part#{group.code}",
+      :description =>  "Awesome part #{group.code}",
+      :group_id => group.id
+    )
+    
+    if a.errors.size != 0 
+      a.errors.messages.each {|x| puts x}
+    end
+  end
+  
+  
+  puts "Total Part: #{Part.count}"
+  
+  Part.all.each do |part|
+    Phase.create_object(
+      :name => "#{part.name}Entity",
+      :description => "Entity for shite",
+      :part_id => part.id 
+    )
+  end
+  
+  puts "Total Phase: #{Phase.count}"
+  
+  Phase.all.each do |phase|
+    Condition.create_object(
+      :case => SPEC_CASE[:pre],
+      :description => "Description  pre condition#{phase.id} of phase #{phase.name}",
+      :phase_id =>  phase.id ,
+      :project_id => project.id 
+    )
+    
+    Condition.create_object(
+      :case => SPEC_CASE[:post],
+      :description => "Description  POST condition#{phase.id} of phase #{phase.name}",
+      :phase_id =>  phase.id ,
+      :project_id => project.id 
+    )
+  end
+  
+  puts "Total spec from project #{project.name}: #{project.conditions.count} "
+  puts "Total pre-condition: #{project.conditions.where(:case => SPEC_CASE[:pre]).count}"
+  puts "Total post-condition: #{project.conditions.where(:case => SPEC_CASE[:post]).count}"
