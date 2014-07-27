@@ -1,4 +1,4 @@
-class Api::PreConditionsController < Api::BaseApiController
+class Api::PostConditionsController < Api::BaseApiController
   
   def index
     
@@ -20,8 +20,8 @@ class Api::PreConditionsController < Api::BaseApiController
         
       }.count
     else
-      @objects = Condition.active_objects.where(:case => SPEC_CASE[:post]).page(params[:page]).per(params[:limit]).order("id DESC")
-      @total = Condition.active_objects.where(:case => SPEC_CASE[:post]).count
+      @objects = Condition.active_objects.where(:case => SPEC_CASE[:post], :phase_id => params[:parent_id]).page(params[:page]).per(params[:limit]).order("id DESC")
+      @total = Condition.active_objects.where(:case => SPEC_CASE[:post], :phase_id => params[:parent_id]).count
     end
     
     

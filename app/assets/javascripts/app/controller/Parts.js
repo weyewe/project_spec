@@ -46,6 +46,11 @@ Ext.define('AM.controller.Parts', {
 		},
 		
 		{
+			ref: 'postConditionList',
+			selector: 'postconditionlist'
+		},
+		
+		{
 			ref : 'searchField1',
 			selector: 'partProcess masterprojectgroupList masterprojectList textfield[name=searchField]'
 		},
@@ -129,9 +134,27 @@ Ext.define('AM.controller.Parts', {
       },
       'preconditionlist button[action=deleteObject]': {
         click: this.deletePreConditionObject
-      }
+      },
 
-// for the post condition
+			//  for the pre condition
+			'postconditionlist': {
+				itemdblclick: this.editPostConditionObject,
+				selectionchange: this.selectionChangePostCondition,
+				destroy : this.onDestroyPostCondition
+			},
+
+			'postconditionform button[action=save]': {
+				click: this.updatePostConditionObject
+			},
+			'postconditionlist button[action=addObject]': {
+				click: this.addPostConditionObject
+			},
+			'postconditionlist button[action=editObject]': {
+				click: this.editPostConditionObject
+			},
+			'postconditionlist button[action=deleteObject]': {
+				click: this.deletePostConditionObject
+			}
 
     });
   },
@@ -161,6 +184,16 @@ Ext.define('AM.controller.Parts', {
 		var phaseList = me.getPhaseList();
 		var parentList1 = me.getParentList1();
 		var parentList2 = me.getParentList2();
+		
+		var preConditionList = me.getPreConditionList();
+		var postConditionList = me.getPostConditionList(); 
+		
+		console.log("preConditionList");
+		console.log( preConditionList );
+		
+		console.log("postConditionList");
+		console.log( postConditionList);
+		
 		var wrapper = me.getWrapper();
 		
 		if (parentList1.getSelectionModel().hasSelection()) {
@@ -169,17 +202,34 @@ Ext.define('AM.controller.Parts', {
 			
 			if( me.selectedParentId1 !==  id){
 				me.selectedParentId1 = id; 
+				
+				me.selectedParentId2 = null;
+				me.selectedParentId3 = null;
+				me.selectedParentId4 = null;
+				
+				
 				// reload
-				grid.getStore().loadData([],false);
-				phaseList.getStore().loadData([], false);
 				parentList2.getStore().getProxy().extraParams.parent_id =  id  ;
 				parentList2.getStore().load();
+				
+				grid.getStore().loadData([],false);
+				phaseList.getStore().loadData([], false);
+				preConditionList.getStore().loadData([], false );
+				postConditionList.getStore().loadData([], false );
+			 
 				
 				// disable all buttons on grid
 				grid.disableRecordButtons();
 				grid.disableAddButton();
 				phaseList.disableRecordButtons();
 				phaseList.disableAddButton();
+				
+				preConditionList.getStore().loadData([], false );
+				postConditionList.getStore().loadData([], false );
+				preConditionList.disableRecordButtons();
+				preConditionList.disableAddButton();
+				postConditionList.disableRecordButtons();
+				postConditionList.disableAddButton();
 			}
 		}
   },
@@ -192,6 +242,10 @@ Ext.define('AM.controller.Parts', {
 		var phaseList = me.getPhaseList(); 
 		var wrapper = me.getWrapper();
 		
+		var preConditionList = me.getPreConditionList();
+		var postConditionList = me.getPostConditionList();
+		
+		
 		if (parentList2.getSelectionModel().hasSelection()) {
 			// reload 
 			var row = parentList2.getSelectionModel().getSelection()[0];
@@ -200,9 +254,19 @@ Ext.define('AM.controller.Parts', {
 			if( me.selectedParentId2 !==  id){
 				me.selectedParentId2 = id; 
 				
+				me.selectedParentId3 = null;
+				me.selectedParentId4 = null;
+				
 				grid.getStore().getProxy().extraParams.parent_id =  id  ;
 				grid.getStore().load();
 				phaseList.getStore().loadData([], false);
+				
+				preConditionList.getStore().loadData([], false );
+				postConditionList.getStore().loadData([], false );
+				preConditionList.disableRecordButtons();
+				preConditionList.disableAddButton();
+				postConditionList.disableRecordButtons();
+				postConditionList.disableAddButton();
 			}
 			
 			// enable add button 
@@ -358,13 +422,22 @@ Ext.define('AM.controller.Parts', {
 		
 		var wrapper = me.getWrapper();
 		
+		var preConditionList = me.getPreConditionList();
+		var postConditionList = me.getPostConditionList();
+		
 		if (grid.getSelectionModel().hasSelection()) {
+			
+			
 			// reload 
 			var row = grid.getSelectionModel().getSelection()[0];
 			var id = row.get("id"); 
 			
 			if( me.selectedParentId3 !==  id){
 				me.selectedParentId3 = id; 
+				 
+				me.selectedParentId4 = null;
+				
+				
 				
 				childList.getStore().getProxy().extraParams.parent_id =  id  ;
 				childList.getStore().load();
@@ -378,6 +451,14 @@ Ext.define('AM.controller.Parts', {
 			grid.disableRecordButtons();
 			childList.disableAddButton();
 		}
+		
+		
+		preConditionList.getStore().loadData([], false );
+		postConditionList.getStore().loadData([], false );
+		preConditionList.disableRecordButtons();
+		preConditionList.disableAddButton();
+		postConditionList.disableRecordButtons();
+		postConditionList.disableAddButton();
 		 
   },
 
@@ -543,6 +624,7 @@ Ext.define('AM.controller.Parts', {
 	
 		var me = this; 
     var childList = me.getPreConditionList();
+		var childList2 = me.getPostConditionList();
 		var grid = me.getPhaseList();
 		
 		var wrapper = me.getWrapper();
@@ -557,15 +639,21 @@ Ext.define('AM.controller.Parts', {
 				
 				childList.getStore().getProxy().extraParams.parent_id =  id  ;
 				childList.getStore().load();
+				
+				childList2.getStore().getProxy().extraParams.parent_id =  id  ;
+				childList2.getStore().load();
+				
 			}
 			
 			// enable add button 
 			childList.enableAddButton();
+			childList2.enableAddButton();
 			grid.enableRecordButtons();
 		}else{
 			
 			grid.disableRecordButtons();
 			childList.disableAddButton();
+			childList2.disableAddButton();
 		}
 	
 	
@@ -709,6 +797,146 @@ Ext.define('AM.controller.Parts', {
 	    grid.disableRecordButtons();
 	  }
 	},
+
+
+	/*
+		For the post condition
+	*/
+
+		onDestroyPostCondition: function(){
+			this.getPostConditionsStore().loadData([],false);
+		},
+
+
+
+
+
+		addPostConditionObject: function() {
+
+
+			var parentObject = this.getPhaseList().getSelectedObject(); 
+
+			if( parentObject ) {
+				var view = Ext.widget('postconditionform');
+
+				view.show();
+
+				view.setParentData(parentObject);
+
+			}
+		},
+
+		editPostConditionObject: function() {
+			var me = this; 
+		  var record = this.getPostConditionList().getSelectedObject();
+			var parentObject  = this.getPhaseList().getSelectedObject(); 
+
+			if( record  &&  parentObject) {
+				var view = Ext.widget('postconditionform');
+				view.show();
+				view.setParentData(parentObject); 
+			}
+
+
+
+		  view.down('form').loadRecord(record);
+		},
+
+		updatePostConditionObject: function(button) {
+			var me = this; 
+		  var win = button.up('window');
+		  var form = win.down('form');
+			var parentList = this.getPhaseList();
+			var wrapper = this.getWrapper();
+
+		  var store = this.getPostConditionsStore();
+		  var record = form.getRecord();
+		  var values = form.getValues();
+
+			if( record ){
+				record.set( values );
+
+				form.setLoading(true);
+				record.save({
+					success : function(record){
+						form.setLoading(false);
+
+						store.load({
+							params: {
+								parent_id : me.selectedParentId4
+							}
+						});
+
+
+						win.close();
+					},
+					failure : function(record,op ){
+						form.setLoading(false);
+						var message  = op.request.scope.reader.jsonData["message"];
+						var errors = message['errors'];
+						form.getForm().markInvalid(errors);
+						this.reject();
+					}
+				});
+
+
+			}else{
+				//  no record at all  => gonna create the new one 
+				var me  = this; 
+				var newObject = new AM.model.PostCondition( values ) ;
+
+				// learnt from here
+				// http://www.sencha.com/forum/showthread.php?137580-ExtJS-4-Sync-and-success-failure-processing
+				// form.mask("Loading....."); 
+				form.setLoading(true);
+				newObject.save({
+					success: function(record){
+
+						store.load({
+							params: {
+								parent_id : me.selectedParentId4
+							}
+						});
+
+						form.setLoading(false);
+						win.close();
+
+					},
+					failure: function( record, op){
+						form.setLoading(false);
+						var message  = op.request.scope.reader.jsonData["message"];
+						var errors = message['errors'];
+						form.getForm().markInvalid(errors);
+						this.reject();
+					}
+				});
+			} 
+		},
+
+		deletePostConditionObject: function() {
+		  var record = this.getPostConditionList().getSelectedObject();
+
+		  if (record) {
+		    var store = this.getPostConditionsStore();
+		    store.remove(record);
+		    store.sync();
+		// to do refresh programmatically
+				this.getPostConditionList().query('pagingtoolbar')[0].doRefresh();
+		  }
+
+		},
+
+		selectionChangePostCondition: function(selectionModel, selections) {
+		  var grid = this.getPostConditionList();
+
+		  if (selections.length > 0) {
+		    grid.enableRecordButtons();
+		  } else {
+		    grid.disableRecordButtons();
+		  }
+		},
+
+
 
 	
 
