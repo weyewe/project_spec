@@ -74,6 +74,13 @@ class Group < ActiveRecord::Base
   end
   
   def delete_object
+    
+    if self.parts.count != 0 
+      self.errors.add(:generic_errors, "Sudah ada entity yang telah dibuat")
+      return self
+    end
+    
+    
     self.is_deleted  = true 
     self.save  
     

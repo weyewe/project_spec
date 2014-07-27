@@ -78,20 +78,20 @@ Ext.define("AM.controller.Master", {
 				}
 				]
 			},
+			// { 
+			// 	text:'Type', 
+			// 	viewClass:'AM.view.master.Type', 
+			// 	leaf:true, 
+			// 	iconCls:'text',
+			// 	conditions : [
+			// 		{
+			// 			controller : 'types',
+			// 			action : 'index'
+			// 		}
+			// 	]
+			// },
 			{ 
-				text:'Type', 
-				viewClass:'AM.view.master.Type', 
-				leaf:true, 
-				iconCls:'text',
-				conditions : [
-					{
-						controller : 'types',
-						action : 'index'
-					}
-				]
-			},
-			{ 
-				text:'Project AA', 
+				text:'Project', 
 				viewClass:'AM.view.master.Project', 
 				leaf:true, 
 				iconCls:'text',
@@ -112,20 +112,20 @@ Ext.define("AM.controller.Master", {
     expanded	: true,
 		children 	: [
         
+			// { 
+			// 	text:'Item', 
+			// 	viewClass:'AM.view.master.Item', 
+			// 	leaf:true, 
+			// 	iconCls:'text',
+			// 	conditions : [
+			// 		{
+			// 			controller : 'items',
+			// 			action : 'index'
+			// 		}
+			// 	]
+			// },
 			{ 
-				text:'Item', 
-				viewClass:'AM.view.master.Item', 
-				leaf:true, 
-				iconCls:'text',
-				conditions : [
-					{
-						controller : 'items',
-						action : 'index'
-					}
-				]
-			},
-			{ 
-				text:'Group', 
+				text:'Module', 
 				viewClass:'AM.view.master.Group', 
 				leaf:true, 
 				iconCls:'text',
@@ -136,18 +136,46 @@ Ext.define("AM.controller.Master", {
 					}
 				]
 			},
+			// { 
+			// 	text:'Contract', 
+			// 	viewClass:'AM.view.master.Contract', 
+			// 	leaf:true, 
+			// 	iconCls:'text',
+			// 	conditions : [
+			// 		{
+			// 			controller : 'contract_maintenances',
+			// 			action : 'index'
+			// 		}
+			// 	]
+			// },
 			{ 
-				text:'Contract', 
-				viewClass:'AM.view.master.Contract', 
+				text:'Entity Phase', 
+				viewClass:'AM.view.master.Part', 
 				leaf:true, 
 				iconCls:'text',
 				conditions : [
 					{
-						controller : 'contract_maintenances',
+						controller : 'parts',
 						action : 'index'
 					}
 				]
 			},
+			
+			 
+			
+			// { 
+			// 	text:'Conditions', 
+			// 	viewClass:'AM.view.master.Part', 
+			// 	leaf:true, 
+			// 	iconCls:'text',
+			// 	conditions : [
+			// 		{
+			// 			controller : 'parts',
+			// 			action : 'index'
+			// 		}
+			// 	]
+			// },
+			
     ]
 	},
 	   

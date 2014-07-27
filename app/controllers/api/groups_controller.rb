@@ -19,6 +19,12 @@ class Api::GroupsController < Api::BaseApiController
         )
         
       }.count
+    elsif params[:parent_id].present?
+      # @group_loan = GroupLoan.find_by_id params[:parent_id]
+      @objects = Group.active_objects.
+                  where(:project_id => params[:parent_id]).
+                  page(params[:page]).per(params[:limit]).order("id DESC")
+      @total = Group.active_objects.where(:project_id => params[:parent_id]).count 
     else
       @objects = Group.active_objects.page(params[:page]).per(params[:limit]).order("id DESC")
       @total = Group.active_objects.count
@@ -78,7 +84,16 @@ class Api::GroupsController < Api::BaseApiController
     if @object.is_deleted
       render :json => { :success => true, :total => Group.active_objects.count }  
     else
-      render :json => { :success => false, :total => Group.active_objects.count }  
+      
+      msg = {
+        :success => false, 
+        :message => {
+          :errors => extjs_error_format( @object.errors )  
+        }
+      }
+      
+      render :json => msg
+      
     end
   end
   

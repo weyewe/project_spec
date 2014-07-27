@@ -1,6 +1,6 @@
-Ext.define('AM.view.master.ProjectList' ,{
+Ext.define('AM.view.master.PartList' ,{
   	extend: 'Ext.grid.Panel',
-  	alias : 'widget.masterprojectList',
+  	alias : 'widget.masterpartList',
 
   	store: 'Projects', 
 		showBottomBar : true, 
@@ -11,7 +11,7 @@ Ext.define('AM.view.master.ProjectList' ,{
 		
 			{
 				xtype : 'templatecolumn',
-				text : "Project",
+				text : "Part",
 				flex : 1,
 				tpl : '<b>{name}</b>' 
 				

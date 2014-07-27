@@ -37,7 +37,10 @@ class Customer < ActiveRecord::Base
   end
   
   def delete_object
-    
+    if self.projects.count != 0 
+      self.errors.add(:generic_errors, "Sudah ada project yang telah dibuat")
+      return self
+    end
     
     
     self.is_deleted  = true 

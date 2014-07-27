@@ -1,8 +1,8 @@
-Ext.define('AM.view.master.part.Form', {
+Ext.define('AM.view.master.phase.Form', {
   extend: 'Ext.window.Window',
-  alias : 'widget.partform',
+  alias : 'widget.phaseform',
 
-  title : 'Add / Edit Part',
+  title : 'Add / Edit Phase',
   layout: 'fit',
 	width	: 500,
   autoShow: true,  // does it need to be called?
@@ -14,7 +14,7 @@ Ext.define('AM.view.master.part.Form', {
 		var me = this; 
 	  
 		 
-		
+		 
 		
     this.items = [{
       xtype: 'form',
@@ -35,13 +35,13 @@ Ext.define('AM.view.master.part.Form', {
 	      },
 				{
 	        xtype: 'hidden',
-	        name : 'group_id',
-	        fieldLabel: 'Group ID'
+	        name : 'part_id',
+	        fieldLabel: 'Part ID'
 	      },
 				{
 					xtype: 'displayfield',
-					fieldLabel: 'Group',
-					name: 'group_name' ,
+					fieldLabel: 'Part',
+					name: 'part_name' ,
 					value : '10' 
 				},
 				{
@@ -79,9 +79,9 @@ Ext.define('AM.view.master.part.Form', {
 		
 	},
 	
-	setParentData2: function( record ){
-		this.down('form').getForm().findField('group_name').setValue(record.get('name')); 
-		this.down('form').getForm().findField('group_id').setValue(record.get('id')); 
+	setParentData: function( record ){
+		this.down('form').getForm().findField('part_name').setValue(record.get('name')); 
+		this.down('form').getForm().findField('part_id').setValue(record.get('id')); 
 	},
 });
 

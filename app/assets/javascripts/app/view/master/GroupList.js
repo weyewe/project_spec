@@ -13,8 +13,8 @@ Ext.define('AM.view.master.GroupList' ,{
 				text : "Group",
 				flex : 1,
 				tpl : '<b>{name}</b>' 
-				
 			}, 
+			{ header: 'Code',  dataIndex: 'code', flex : 1  },
 		];
 
 	 

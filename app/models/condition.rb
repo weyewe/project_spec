@@ -63,9 +63,10 @@ class Condition < ActiveRecord::Base
     new_object.description  = params[:description]
     new_object.case      = params[:case    ]
     new_object.phase_id      = params[:phase_id    ]
-    new_object.project_id      = params[:project_id    ]
+    
     
     if new_object.save
+      new_object.project_id      = new_object.phase.part.group.project_id 
       
       new_object.code = new_object.phase.code + "." + 
                         new_object.case.to_s + "." +  

@@ -1,6 +1,6 @@
-Ext.define('AM.view.master.ProjectGroupList', {
+Ext.define('AM.view.master.ProjectGroupPartList', {
     extend: 'AM.view.Worksheet',
-    alias: 'widget.masterprojectgroupList',
+    alias: 'widget.masterprojectgrouppartList',
 	 
 		layout : {
 			type : 'vbox',
@@ -20,7 +20,11 @@ Ext.define('AM.view.master.ProjectGroupList', {
 			
 			{
 				xtype : 'mastergroupList',
-				flex : 2
+				flex : 1
 			}, 
+			{
+				xtype : 'masterpartList',
+				flex : 1
+			},
 		]
 });

@@ -48,6 +48,12 @@ class Phase < ActiveRecord::Base
   end
   
   def delete_object
+    
+    if self.conditions.count != 0 
+      self.errors.add(:generic_errors, "Sudah ada kondisi yang telah dibuat")
+      return self
+    end
+    
     self.is_deleted  = true 
     self.save  
   end 

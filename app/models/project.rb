@@ -47,6 +47,11 @@ class Project < ActiveRecord::Base
   end
   
   def delete_object
+    if self.groups.count != 0 
+      self.errors.add(:generic_errors, "Sudah ada group yang telah dibuat")
+      return self
+    end
+    
     self.is_deleted  = true 
     self.save  
     

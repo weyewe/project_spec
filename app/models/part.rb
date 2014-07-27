@@ -48,6 +48,11 @@ class Part < ActiveRecord::Base
   end
   
   def delete_object
+    if self.phases.count !=  0 
+      self.errors.add(:generic_errors, "Sudah ada phases yang dibuat")
+      return self 
+    end
+    
     self.is_deleted  = true 
     self.save  
     

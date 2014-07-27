@@ -78,7 +78,14 @@ class Api::PhasesController < Api::BaseApiController
     if @object.is_deleted
       render :json => { :success => true, :total => Phase.active_objects.count }  
     else
-      render :json => { :success => false, :total => Phase.active_objects.count }  
+      msg = {
+        :success => false, 
+        :message => {
+          :errors => extjs_error_format( @object.errors )  
+        }
+      }
+      
+      render :json => msg
     end
   end
   

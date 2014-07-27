@@ -4,7 +4,7 @@ class Api::PartsController < Api::BaseApiController
     
     if params[:livesearch].present? 
       livesearch = "%#{params[:livesearch]}%"
-      @objects = Part.active_objects.where{
+      @objects = Part.joins(:group).active_objects.where{
         (is_deleted.eq false) & 
         (
           (name =~  livesearch )  
@@ -19,12 +19,16 @@ class Api::PartsController < Api::BaseApiController
         )
         
       }.count
+    elsif params[:parent_id].present?
+      # @group_loan = GroupLoan.find_by_id params[:parent_id]
+      @objects = Part.joins(:group).active_objects.
+                  where(:group_id => params[:parent_id]).
+                  page(params[:page]).per(params[:limit]).order("id DESC")
+      @total = Part.active_objects.where(:group_id => params[:parent_id]).count 
     else
-      @objects = Part.active_objects.page(params[:page]).per(params[:limit]).order("id DESC")
+      @objects = Part.joins(:group).active_objects.page(params[:page]).per(params[:limit]).order("id DESC")
       @total = Part.active_objects.count
     end
-    
-    
     
     # render :json => { :parts => @objects , :total => @total, :success => true }
   end
@@ -78,7 +82,14 @@ class Api::PartsController < Api::BaseApiController
     if @object.is_deleted
       render :json => { :success => true, :total => Part.active_objects.count }  
     else
-      render :json => { :success => false, :total => Part.active_objects.count }  
+      msg = {
+        :success => false, 
+        :message => {
+          :errors => extjs_error_format( @object.errors )  
+        }
+      }
+      
+      render :json => msg 
     end
   end
   

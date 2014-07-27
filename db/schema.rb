@@ -122,7 +122,6 @@ ActiveRecord::Schema.define(version: 20140618100036) do
   end
 
   create_table "phases", force: true do |t|
-    t.integer  "group_id"
     t.string   "name"
     t.string   "code"
     t.text     "description"
