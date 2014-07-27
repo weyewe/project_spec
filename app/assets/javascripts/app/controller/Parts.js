@@ -1,12 +1,13 @@
 Ext.define('AM.controller.Parts', {
   extend: 'Ext.app.Controller',
 
-  stores: ['Projects', 'Groups', 'Parts', 'Phases'],
+  stores: ['Projects', 'Groups', 'Parts', 'Phases', 'PreConditions', 'PostConditions'],
   models: ['Part'],
 
 	selectedParentId1: null, 
 	selectedParentId2: null, 
 	selectedParentId3: null , 
+	selectedParentId4 : null, 
 	
   views: [
     'master.part.List',
@@ -37,6 +38,11 @@ Ext.define('AM.controller.Parts', {
 		{
 			ref: 'phaseList',
 			selector: 'phaselist'
+		},
+		
+		{
+			ref: 'preConditionList',
+			selector: 'preconditionlist'
 		},
 		
 		{
@@ -103,7 +109,29 @@ Ext.define('AM.controller.Parts', {
       },
       'phaselist button[action=deleteObject]': {
         click: this.deletePhaseObject
-      } 
+      } ,
+
+//  for the pre condition
+			'preconditionlist': {
+        itemdblclick: this.editPreConditionObject,
+        selectionchange: this.selectionChangePreCondition,
+				destroy : this.onDestroyPreCondition
+      },
+
+      'preconditionform button[action=save]': {
+        click: this.updatePreConditionObject
+      },
+      'preconditionlist button[action=addObject]': {
+        click: this.addPreConditionObject
+      },
+      'preconditionlist button[action=editObject]': {
+        click: this.editPreConditionObject
+      },
+      'preconditionlist button[action=deleteObject]': {
+        click: this.deletePreConditionObject
+      }
+
+// for the post condition
 
     });
   },
@@ -350,17 +378,7 @@ Ext.define('AM.controller.Parts', {
 			grid.disableRecordButtons();
 			childList.disableAddButton();
 		}
-		
-		    // 
-		    // var grid = this.getList();
-		    // 
-		    // 		
-		    //   
-		    // if (selections.length > 0) {
-		    //   grid.enableRecordButtons();
-		    // } else {
-		    //   grid.disableRecordButtons();
-		    // }
+		 
   },
 
 
@@ -515,7 +533,175 @@ Ext.define('AM.controller.Parts', {
 	},
 
 	selectionChangePhase: function(selectionModel, selections) {
-	  var grid = this.getPhaseList();
+	  // var grid = this.getPhaseList();
+	  // 
+	  // if (selections.length > 0) {
+	  //   grid.enableRecordButtons();
+	  // } else {
+	  //   grid.disableRecordButtons();
+	  // }
+	
+		var me = this; 
+    var childList = me.getPreConditionList();
+		var grid = me.getPhaseList();
+		
+		var wrapper = me.getWrapper();
+		
+		if (grid.getSelectionModel().hasSelection()) {
+			// reload 
+			var row = grid.getSelectionModel().getSelection()[0];
+			var id = row.get("id"); 
+			
+			if( me.selectedParentId4 !==  id){
+				me.selectedParentId4 = id; 
+				
+				childList.getStore().getProxy().extraParams.parent_id =  id  ;
+				childList.getStore().load();
+			}
+			
+			// enable add button 
+			childList.enableAddButton();
+			grid.enableRecordButtons();
+		}else{
+			
+			grid.disableRecordButtons();
+			childList.disableAddButton();
+		}
+	
+	
+	
+	},
+	
+	
+/*
+	For the pre condition
+*/
+
+	onDestroyPreCondition: function(){
+		this.getPreConditionsStore().loadData([],false);
+	},
+
+	  
+
+
+
+	addPreConditionObject: function() {
+
+		
+		var parentObject = this.getPhaseList().getSelectedObject(); 
+	
+		if( parentObject ) {
+			var view = Ext.widget('preconditionform');
+		
+			view.show();
+		
+			view.setParentData(parentObject);
+			
+		}
+	},
+
+	editPreConditionObject: function() {
+		var me = this; 
+	  var record = this.getPreConditionList().getSelectedObject();
+		var parentObject  = this.getPhaseList().getSelectedObject(); 
+	
+		if( record  &&  parentObject) {
+			var view = Ext.widget('preconditionform');
+			view.show();
+			view.setParentData(parentObject); 
+		}
+	
+	
+
+	  view.down('form').loadRecord(record);
+	},
+
+	updatePreConditionObject: function(button) {
+		var me = this; 
+	  var win = button.up('window');
+	  var form = win.down('form');
+		var parentList = this.getPhaseList();
+		var wrapper = this.getWrapper();
+
+	  var store = this.getPreConditionsStore();
+	  var record = form.getRecord();
+	  var values = form.getValues();
+
+		if( record ){
+			record.set( values );
+		 
+			form.setLoading(true);
+			record.save({
+				success : function(record){
+					form.setLoading(false);
+				
+					store.load({
+						params: {
+							parent_id : me.selectedParentId4
+						}
+					});
+				 
+				
+					win.close();
+				},
+				failure : function(record,op ){
+					form.setLoading(false);
+					var message  = op.request.scope.reader.jsonData["message"];
+					var errors = message['errors'];
+					form.getForm().markInvalid(errors);
+					this.reject();
+				}
+			});
+			
+		 
+		}else{
+			//  no record at all  => gonna create the new one 
+			var me  = this; 
+			var newObject = new AM.model.PreCondition( values ) ;
+		
+			// learnt from here
+			// http://www.sencha.com/forum/showthread.php?137580-ExtJS-4-Sync-and-success-failure-processing
+			// form.mask("Loading....."); 
+			form.setLoading(true);
+			newObject.save({
+				success: function(record){
+
+					store.load({
+						params: {
+							parent_id : me.selectedParentId4
+						}
+					});
+				
+					form.setLoading(false);
+					win.close();
+				
+				},
+				failure: function( record, op){
+					form.setLoading(false);
+					var message  = op.request.scope.reader.jsonData["message"];
+					var errors = message['errors'];
+					form.getForm().markInvalid(errors);
+					this.reject();
+				}
+			});
+		} 
+	},
+
+	deletePreConditionObject: function() {
+	  var record = this.getPreConditionList().getSelectedObject();
+
+	  if (record) {
+	    var store = this.getPreConditionsStore();
+	    store.remove(record);
+	    store.sync();
+	// to do refresh programmatically
+			this.getPreConditionList().query('pagingtoolbar')[0].doRefresh();
+	  }
+
+	},
+
+	selectionChangePreCondition: function(selectionModel, selections) {
+	  var grid = this.getPreConditionList();
 
 	  if (selections.length > 0) {
 	    grid.enableRecordButtons();

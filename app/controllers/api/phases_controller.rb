@@ -20,8 +20,8 @@ class Api::PhasesController < Api::BaseApiController
         
       }.count
     else
-      @objects = Phase.active_objects.page(params[:page]).per(params[:limit]).order("id DESC")
-      @total = Phase.active_objects.count
+      @objects = Phase.active_objects.where(:part_id => params[:parent_id]).page(params[:page]).per(params[:limit]).order("id DESC")
+      @total = Phase.active_objects.where(:part_id => params[:parent_id]).count
     end
     
     

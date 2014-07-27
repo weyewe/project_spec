@@ -15,12 +15,14 @@ Ext.define('AM.view.master.ProjectGroupList', {
 			{
 				xtype : 'masterprojectList',
 				flex : 1 ,
-				showBottomBar: false 
+				showBottomBar: false,
+				title : "Project"
 			},
 			
 			{
 				xtype : 'mastergroupList',
-				flex : 2
+				flex : 2,
+				title : "Module"
 			}, 
 		]
 });

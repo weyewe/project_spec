@@ -30,7 +30,7 @@ class Api::PreSpecsController < Api::BaseApiController
   end
 
   def create
-    params[:spec][:case] = SPEC_CODE[:post]
+    params[:spec][:case] = SPEC_CASE[:post]
     @object = Spec.create_object( params[:spec] )  
     
     

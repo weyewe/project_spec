@@ -20,24 +20,24 @@ class Api::PreConditionsController < Api::BaseApiController
         
       }.count
     else
-      @objects = Condition.active_objects.where(:case => SPEC_CASE[:pre]).page(params[:page]).per(params[:limit]).order("id DESC")
-      @total = Condition.active_objects.where(:case => SPEC_CASE[:pre]).count
+      @objects = Condition.active_objects.where(:case => SPEC_CASE[:pre], :phase_id => params[:parent_id]).page(params[:page]).per(params[:limit]).order("id DESC")
+      @total = Condition.active_objects.where(:case => SPEC_CASE[:pre], :phase_id => params[:parent_id]).count
     end
     
     
     
-    # render :json => { :conditions => @objects , :total => @total, :success => true }
+    # render :json => { :pre_conditions => @objects , :total => @total, :success => true }
   end
 
   def create
-    params[:condition][:case] = SPEC_CODE[:pre]
-    @object = Condition.create_object( params[:condition] )  
+    params[:pre_condition][:case] = SPEC_CASE[:pre]
+    @object = Condition.create_object( params[:pre_condition] )  
     
     
  
     if @object.errors.size == 0 
       render :json => { :success => true, 
-                        :conditions => [@object] , 
+                        :pre_conditions => [@object] , 
                         :total => Condition.active_objects.where(:case => SPEC_CASE[:pre]).count }  
     else
       msg = {
@@ -54,11 +54,11 @@ class Api::PreConditionsController < Api::BaseApiController
   def update
     
     @object = Condition.find_by_id params[:id] 
-    @object.update_object( params[:condition])
+    @object.update_object( params[:pre_condition])
      
     if @object.errors.size == 0 
       render :json => { :success => true,   
-                        :conditions => [@object],
+                        :pre_conditions => [@object],
                         :total => Condition.active_objects.where(:case => SPEC_CASE[:pre]).count  } 
     else
       msg = {

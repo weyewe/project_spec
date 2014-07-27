@@ -26,18 +26,18 @@ class Api::PreConditionsController < Api::BaseApiController
     
     
     
-    # render :json => { :conditions => @objects , :total => @total, :success => true }
+    # render :json => { :post_conditions => @objects , :total => @total, :success => true }
   end
 
   def create
-    params[:condition][:case] = SPEC_CODE[:post]
-    @object = Condition.create_object( params[:condition] )  
+    params[:post_condition][:case] = SPEC_CASE[:post]
+    @object = Condition.create_object( params[:post_condition] )  
     
     
  
     if @object.errors.size == 0 
       render :json => { :success => true, 
-                        :conditions => [@object] , 
+                        :post_conditions => [@object] , 
                         :total => Condition.active_objects.where(:case => SPEC_CASE[:post]).count }  
     else
       msg = {
@@ -54,11 +54,11 @@ class Api::PreConditionsController < Api::BaseApiController
   def update
     
     @object = Condition.find_by_id params[:id] 
-    @object.update_object( params[:condition])
+    @object.update_object( params[:post_condition])
      
     if @object.errors.size == 0 
       render :json => { :success => true,   
-                        :conditions => [@object],
+                        :post_conditions => [@object],
                         :total => Condition.active_objects.where(:case => SPEC_CASE[:post]).count  } 
     else
       msg = {

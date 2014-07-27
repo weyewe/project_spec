@@ -1,8 +1,8 @@
-Ext.define('AM.view.master.precondition.List' ,{
+Ext.define('AM.view.master.postcondition.List' ,{
   	extend: 'Ext.grid.Panel',
-  	alias : 'widget.preconditionlist',
+  	alias : 'widget.postconditionlist',
 
-  	store: 'PreConditions', 
+  	store: 'PostConditions', 
  
 
 	initComponent: function() {

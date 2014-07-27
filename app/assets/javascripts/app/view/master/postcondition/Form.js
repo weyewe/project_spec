@@ -1,8 +1,8 @@
-Ext.define('AM.view.master.precondition.Form', {
+Ext.define('AM.view.master.postcondition.Form', {
   extend: 'Ext.window.Window',
-  alias : 'widget.preconditionform',
+  alias : 'widget.postconditionform',
 
-  title : 'Add / Edit PreCondition',
+  title : 'Add / Edit PostCondition',
   layout: 'fit',
 	width	: 500,
   autoShow: true,  // does it need to be called?

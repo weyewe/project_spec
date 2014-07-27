@@ -37,12 +37,14 @@ Ext.define('AM.view.master.Part', {
 						items : [
 							{
 								xtype : 'partlist',
-								flex : 2
+								flex : 2,
+								title : "Entity"
 							}, 
 
 							{
 								xtype : 'phaselist',
-								flex : 2
+								flex : 2,
+								title : "Phase"
 							},
 						]
 					},
@@ -57,13 +59,15 @@ Ext.define('AM.view.master.Part', {
 						},
 						items: [
 							{
-								xtype : 'container',
-								html: "pre condition",
+								// xtype : 'container',
+								xtype: 'preconditionlist',
+								// html: "pre condition",
 								flex: 1
 							},
 							{
-								xtype : 'container',
-								html : 'post_condtion',
+								// xtype : 'container',
+								xtype: 'postconditionlist',
+								// html : 'post_condtion',
 								flex: 1
 							}
 						]

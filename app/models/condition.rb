@@ -3,11 +3,9 @@ class Condition < ActiveRecord::Base
   belongs_to :project
   
   validates_presence_of :phase_id
-  validates_presence_of :project_id 
   validates_presence_of :case 
   
   validate :valid_phase_id
-  validate :valid_project_id 
   validate :valid_case
   validate :valid_project_phase_combination
   
