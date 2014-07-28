@@ -38,6 +38,7 @@ group :doc do
 end
 
 
+gem "prawn"
 gem 'devise'
 gem "kaminari"  
 gem 'uuidtools'
@@ -47,6 +48,9 @@ gem 'the_role', '~> 2.5.2'
 gem 'the_role_bootstrap3_ui'
 gem 'protected_attributes'
 gem 'squeel', :git => "git://github.com/ernie/squeel.git"
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
  
 
 group :production do

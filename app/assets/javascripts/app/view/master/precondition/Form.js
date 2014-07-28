@@ -45,7 +45,8 @@ Ext.define('AM.view.master.precondition.Form', {
 					value : '10' 
 				}, 
 				{
-					xtype: 'textarea',
+					// xtype: 'textarea',
+					xtype: 'htmleditor',
 					name : 'description',
 					fieldLabel: 'Deskripsi'
 				},

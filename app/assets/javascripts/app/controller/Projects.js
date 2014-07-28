@@ -36,12 +36,41 @@ Ext.define('AM.controller.Projects', {
       'projectlist button[action=deleteObject]': {
         click: this.deleteObject
 			}	,
+			
+			'projectlist button[action=downloadPDF]': {
+        click: this.downloadPDF
+			}	,
+			
 			'projectlist textfield[name=searchField]': {
 				change: this.liveSearch
 			}
 		
     });
   },
+
+	downloadPDF: function(){
+		var record = this.getList().getSelectedObject();
+		
+		if(!record){return;}
+		var ps_width = 380; 
+		var ps_height = 550; 
+		var id = record.get("id")
+		
+		// var anotherwindow = window.open(
+		// 	'reports/billofsale.php?id='+id,'PDF','width='+ps_width+',height='+ps_height+',resizable');
+			// var anotherwindow = window.open(
+			// 	'projects/'+id,
+			// 	'PDF',
+			// 	'width='+ps_width+',height='+ps_height+',resizable');
+			// 	
+		
+			var anotherwindow = window.open(
+				'projects/'+id + ".pdf" );				
+				
+		// window.open( '/bookings/payment_receipt/'+ record.get('id')  );
+	},
+	
+	
 
 	liveSearch : function(grid, newValue, oldValue, options){
 		var me = this;
