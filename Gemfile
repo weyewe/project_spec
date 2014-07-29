@@ -38,7 +38,13 @@ group :doc do
 end
 
 
-gem "prawn"
+gem 'prawn'
+gem 'prawn_rails'
+
+gem "roadie-rails"
+gem 'prawn-table'
+
+gem 'coderay'
 gem 'devise'
 gem "kaminari"  
 gem 'uuidtools'

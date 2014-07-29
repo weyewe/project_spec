@@ -65,7 +65,7 @@ Ext.define('AM.controller.Projects', {
 			// 	
 		
 			var anotherwindow = window.open(
-				'projects/'+id + ".pdf" );				
+				'projects_pdf/'+id + ".pdf" );				
 				
 		// window.open( '/bookings/payment_receipt/'+ record.get('id')  );
 	},

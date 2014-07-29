@@ -3,6 +3,8 @@ Ticketie::Application.routes.draw do
   root :to => 'home#index'
   
   resources :projects 
+  get 'projects_basic' => 'projects#basic', :as => :projects_basic, :method => :get
+  get 'projects_pdf/:id' => 'projects#pdf_report' , :as => :projects_pdf, :method => :get
   
   
   namespace :api do

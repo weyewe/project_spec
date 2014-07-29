@@ -3,7 +3,7 @@ class Group < ActiveRecord::Base
   has_many :parts 
   
   validates_presence_of :name  
-  validates_uniqueness_of :name  
+  # validates_uniqueness_of :name  
   
   validates_presence_of :code  
   
@@ -12,6 +12,7 @@ class Group < ActiveRecord::Base
   
   validate :valid_project_id
   validate :unique_code_in_project 
+  validate :uniq_name_in_given_project
   
   def valid_project_id
     return if project_id.nil? 
@@ -46,6 +47,35 @@ class Group < ActiveRecord::Base
       return self
     end
   end
+  
+  def uniq_name_in_given_project
+    return if not name.present? 
+    return if not project_id.present?
+    
+    current_name = self.name 
+    
+    ordered_detail_count  = Group.where(
+      :project_id => project_id,
+      :name => current_name
+    ).count 
+    
+    ordered_detail = Group.where(
+      :project_id => project_id,
+      :name => current_name
+    ).first
+    
+    if self.persisted? and ordered_detail.id != self.id   and ordered_detail_count == 1
+      self.errors.add(:name, "Nama harus uniq dalam 1 project")
+      return self 
+    end
+    
+    # there is item with such item_id in the database
+    if not self.persisted? and ordered_detail_count != 0 
+      self.errors.add(:name, "Nama harus uniq dalam 1 project")
+      return self
+    end
+  end
+  
  
   
   def self.create_object( params ) 

@@ -206,3 +206,673 @@ data_entry_role = Role.create!(
   puts "Total spec from project #{project.name}: #{project.conditions.count} "
   puts "Total pre-condition: #{project.conditions.where(:case => SPEC_CASE[:pre]).count}"
   puts "Total post-condition: #{project.conditions.where(:case => SPEC_CASE[:post]).count}"
+  
+  
+  customer = Customer.create_object(
+    :name        => "ssd", 
+    :address     => " kalibesar no 50 ", 
+    :pic         => " WILLY ", 
+    :contact     => "082125583534", 
+    :email       => "walawee@gmail.com", 
+  )
+  
+  
+  project = Project.create_object(
+    :name =>  "Hardware Maintenance",
+    :description => "Awesome first project",
+    :customer_id => customer.id
+  )
+  
+  operation_group = Group.create_object(
+    :name => "Operasional",
+    :code => "O" ,
+    :description => "Recording data operasional SSD IT support",
+    :project_id => project.id 
+  )
+  
+=begin
+  User Entity used 
+=end
+  
+  user_entity = Part.create_object(
+    :name => "User",
+    :description =>  "The IT Staff that are doing operation",
+    :group_id => operation_group.id
+  )
+  
+    create_phase = Phase.create_object(
+      :name => "Create",
+      :description => "Create object",
+      :part_id => user_entity.id 
+    )
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Name must be present and unique",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Auto create CreatedAt = DateTime.now",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+    
+    update_phase = Phase.create_object(
+      :name => "Update",
+      :description => "Update object",
+      :part_id => user_entity.id 
+    )
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Name must be present and unique",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "AutoCreate UpdatedAt= DateTime.now",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+    
+    destroy_phase = Phase.create_object(
+      :name => "Destroy",
+      :description => "Destroy object",
+      :part_id => user_entity.id 
+    )
+    
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Can't be destroyed if there is Maintenance associated with this item",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "DeletedAt = DateTime.now",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "soft destroy: mark column IsDeleted to be true",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+    
+=begin
+  Item Type Entity used 
+=end  
+  type_entity = Part.create_object(
+    :name => "ItemType",
+    :description =>  "Item Type being serviced/supported",
+    :group_id => operation_group.id
+  )
+    create_phase = Phase.create_object(
+      :name => "Create",
+      :description => "Create object",
+      :part_id => type_entity.id 
+    )
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Name must be present and unique",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Auto create CreatedAt = DateTime.now",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+    
+    update_phase = Phase.create_object(
+      :name => "Update",
+      :description => "Update object",
+      :part_id => type_entity.id 
+    )
+    
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Name must be present and unique",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Auto create CreatedAt = DateTime.now",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+      
+    destroy_phase = Phase.create_object(
+      :name => "Destroy",
+      :description => "Destroy object",
+      :part_id => type_entity.id 
+    )
+    
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Can't be destroyed if there is Maintenance associated with this Type",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Can't be destroyed if there is Item associated with this Type",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "DeletedAt = DateTime.now",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "soft destroy: mark column IsDeleted to be true",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+      
+      
+
+=begin
+  Customer Entity used 
+=end  
+  customer_entity = Part.create_object(
+    :name => "Customer",
+    :description =>  "Companies under our management",
+    :group_id => operation_group.id
+  )
+  
+    create_phase = Phase.create_object(
+      :name => "Create",
+      :description => "Create object",
+      :part_id => customer_entity.id 
+    )
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Name must be present and unique",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Auto create CreatedAt = DateTime.now",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+  
+    update_phase = Phase.create_object(
+      :name => "Update",
+      :description => "Update object",
+      :part_id => customer_entity.id 
+    )
+  
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Name must be present and unique",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Auto create CreatedAt = DateTime.now",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+    
+    destroy_phase = Phase.create_object(
+      :name => "Destroy",
+      :description => "Destroy object",
+      :part_id => customer_entity.id 
+    )
+  
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Can't be destroyed if there is Maintenance associated with this Customer",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Can't be destroyed if there is Item associated with this Customer",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "DeletedAt = DateTime.now",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+    
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "soft destroy: mark column IsDeleted to be true",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+  
+
+
+=begin
+  Item Entity used 
+=end  
+  item_entity = Part.create_object(
+    :name => "Item",
+    :description =>  "All items registered for a given customer",
+    :group_id => operation_group.id
+  )
+    create_phase = Phase.create_object(
+      :name => "Create",
+      :description => "Create object",
+      :part_id => item_entity.id 
+    )
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "CustomerId must be present and unique",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Customer associated with CustomerId must not be in deleted state",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "TypeId must be present ",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Type associated with TypeId must not be in deleted state",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Auto create CreatedAt = DateTime.now",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Code= Auto generated with format: Customer.Id/year_created_at/month_created_at/total_item_in_that_year",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+  
+    update_phase = Phase.create_object(
+      :name => "Update",
+      :description => "Update object",
+      :part_id => item_entity.id 
+    )
+  
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "If there are maintenances, can't update TypeId",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Can't Update CustomerId",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Auto create CreatedAt = DateTime.now",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+    
+    destroy_phase = Phase.create_object(
+      :name => "Destroy",
+      :description => "Destroy object",
+      :part_id => item_entity.id 
+    )
+  
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Can't be destroyed if there is Maintenance associated with this Item",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "DeletedAt = DateTime.now",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+    
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "soft destroy: mark column IsDeleted to be true",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+    
+  
+=begin
+  Maintenance Entity used 
+=end
+  maintenance_entity = Part.create_object(
+    :name => "Maintenance",
+    :description =>  "Treatment given to the customer's item",
+    :group_id => operation_group.id
+  )
+  
+    create_phase = Phase.create_object(
+      :name => "Create",
+      :description => "Create object",
+      :part_id => maintenance_entity.id 
+    )
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "ItemId must be present and valid (valid means: really available in database, and belongs to the customer)",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "CustomerId must be present and valid",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "TypeId must be present and valid ",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "UserId must be present and valid",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "RequestDate must be present",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Complaint must be present",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Case must be present: Can only select Constant.Maintenance.Case.Scheduled and Constant.Maintenance.Case.Emergency",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Auto create CreatedAt= DateTime.now",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Code= Auto generated with format: Customer.Id/year_created_at/month_created_at/total_item_in_that_year",
+        :phase_id =>  create_phase.id ,
+        :project_id => project.id 
+      )
+  
+    update_phase = Phase.create_object(
+      :name => "Update",
+      :description => "Update object",
+      :part_id => maintenance_entity.id 
+    )
+  
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Can't update if it is Finished",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "ItemId must be present and valid (valid means: really available in database, and belongs to the customer)",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Can't update Customer",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "TypeId must be present and valid ",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "UserId must be present and valid",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "RequestDate must be present",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Complaint must be present",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Case must be present",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "AutoCreate UpdatedAt= DateTime.now",
+        :phase_id =>  update_phase.id ,
+        :project_id => project.id 
+      )
+    
+    diagnose_phase = Phase.create_object(
+      :name => "Diagnose",
+      :description => "Set object phase into Diagnosed ",
+      :part_id => maintenance_entity.id 
+    )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Diagnosis must be present",
+        :phase_id =>  diagnose_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "DiagnosisCase must be present. Possible value: All_OK, FIX_REQUIRED, REPLACEMENT_REQUIRED",
+        :phase_id =>  diagnose_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "DiagnosisDate must be present",
+        :phase_id =>  diagnose_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Solution must be present",
+        :phase_id =>  diagnose_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "SolutionCase must be present. Possible values: NORMAL, PENDING, SOLVED",
+        :phase_id =>  diagnose_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "IsDiagnosed set to be true",
+        :phase_id =>  diagnose_phase.id ,
+        :project_id => project.id 
+      )
+      
+    undiagnose_phase = Phase.create_object(
+      :name => "UnDiagnose",
+      :description => "Cancel Diagnose object",
+      :part_id => maintenance_entity.id 
+    )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "Must be in diagnosed state (IsDiagnosed = true ) ",
+        :phase_id =>  undiagnose_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "must not be in finished state (IsFinished = false)",
+        :phase_id =>  undiagnose_phase.id ,
+        :project_id => project.id 
+      )
+
+
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "set IsDiagnosed = false",
+        :phase_id =>  undiagnose_phase.id ,
+        :project_id => project.id 
+      )
+
+
+    confirm_phase = Phase.create_object(
+      :name => "Confirm",
+      :description => "Confirm Maintenance",
+      :part_id => maintenance_entity.id 
+    )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "IsDiagnosed must to be true",
+        :phase_id =>  confirm_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Set IsFinished to be true",
+        :phase_id =>  confirm_phase.id ,
+        :project_id => project.id 
+      )
+    
+    unconfirm_phase = Phase.create_object(
+      :name => "Confirm",
+      :description => "Confirm Maintenance",
+      :part_id => maintenance_entity.id 
+    )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "must be in finished state",
+        :phase_id =>  unconfirm_phase.id ,
+        :project_id => project.id 
+      )
+
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "Set IsFinished to be false",
+        :phase_id =>  unconfirm_phase.id ,
+        :project_id => project.id 
+      )
+    
+    destroy_phase = Phase.create_object(
+      :name => "Destroy",
+      :description => "Destroy object",
+      :part_id => maintenance_entity.id 
+    )
+  
+      Condition.create_object(
+        :case => SPEC_CASE[:pre],
+        :description => "can't be destroyed if it is finished or Diagnosed",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+      
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "DeletedAt = DateTime.now",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+    
+      Condition.create_object(
+        :case => SPEC_CASE[:post],
+        :description => "soft destroy: mark column IsDeleted to be true",
+        :phase_id =>  destroy_phase.id ,
+        :project_id => project.id 
+      )
+    
+  
+  
+  
+  
+  

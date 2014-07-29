@@ -3,11 +3,12 @@ class Part < ActiveRecord::Base
   has_many :phases
   
   validates_presence_of :name  
-  validates_uniqueness_of :name  
+  # validates_uniqueness_of :name  
   validates_presence_of :group_id
   
   
   validate :valid_group_id
+  validate :uniq_name_in_given_group
   
   def valid_group_id
     return if group_id.nil? 
@@ -19,6 +20,35 @@ class Part < ActiveRecord::Base
     end
   end
  
+  def uniq_name_in_given_group
+    return if not name.present? 
+    return if not group_id.present?
+    
+    current_name = self.name 
+    
+    ordered_detail_count  = Part.where(
+      :group_id => group_id,
+      :name => current_name
+    ).count 
+    
+    ordered_detail = Part.where(
+      :group_id => group_id,
+      :name => current_name
+    ).first
+    
+    if self.persisted? and ordered_detail.id != self.id   and ordered_detail_count == 1
+      self.errors.add(:name, "Nama harus uniq dalam 1 group")
+      return self 
+    end
+    
+    # there is item with such item_id in the database
+    if not self.persisted? and ordered_detail_count != 0 
+      self.errors.add(:name, "Nama harus uniq dalam 1 group")
+      return self
+    end
+  end
+  
+  
   
   def self.create_object( params ) 
     new_object           = self.new

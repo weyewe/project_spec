@@ -3,11 +3,12 @@ class Phase < ActiveRecord::Base
   has_many :conditions
   
   validates_presence_of :name  
-  validates_uniqueness_of :name  
+  # validates_uniqueness_of :name  
   validates_presence_of :part_id
   
   
   validate :valid_part_id
+  validate :uniq_name_in_given_part
   
   def valid_part_id
     return if part_id.nil? 
@@ -18,6 +19,34 @@ class Phase < ActiveRecord::Base
       return self
     end
   end
+  
+  def uniq_name_in_given_part
+    return if not name.present? 
+    return if not part_id.present?
+    
+    current_name = self.name 
+    
+    ordered_detail_count  = Phase.where(
+      :part_id => part_id,
+      :name => current_name
+    ).count 
+    
+    ordered_detail = Phase.where(
+      :part_id => part_id,
+      :name => current_name
+    ).first
+    
+    if self.persisted? and ordered_detail.id != self.id   and ordered_detail_count == 1
+      self.errors.add(:name, "Nama harus uniq dalam 1 part")
+      return self 
+    end
+    
+    # there is item with such item_id in the database
+    if not self.persisted? and ordered_detail_count != 0 
+      self.errors.add(:name, "Nama harus uniq dalam 1 part")
+      return self
+    end
+  end 
  
   
   def self.create_object( params ) 
