@@ -55,6 +55,7 @@ end
 
 # spec code, description 
 
-pdf.start_new_page
+pdf.start_new_page if counter != total_parts
+
 
  

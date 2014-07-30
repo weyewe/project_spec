@@ -9,6 +9,13 @@ prawn_document( :force_download=>true, :page_size => "FOLIO") do |pdf|
 	end
 	
 	
+	
+	pdf.number_pages "<page> / <total>", 
+	                                       {:start_count_at => 1,
+	                                        :page_filter => lambda{ |pg| pg != 1 },
+	                                        :at => [pdf.bounds.right - 100, 20],
+	                                        :align => :right,
+	                                        :size => 10}
  
 
 

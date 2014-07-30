@@ -16,7 +16,8 @@ pdf.start_new_page
 
 
 counter = 1
+total_parts = group.parts.count 
 group.parts.each do |part|
-	render "part", :pdf => pdf, :part => part , :counter => counter, :group => group 
+	render "part", :pdf => pdf, :part => part , :counter => counter, :group => group, :total_parts => total_parts 
 	counter +=1 
 end
