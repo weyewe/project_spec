@@ -48,6 +48,14 @@ class Phase < ActiveRecord::Base
     end
   end 
  
+ 
+  def pre_conditions
+    self.conditions.where(:is_deleted => false, :case => SPEC_CASE[:pre])
+  end
+  
+  def post_conditions
+    self.conditions.where(:is_deleted => false, :case => SPEC_CASE[:post])
+  end
   
   def self.create_object( params ) 
     new_object           = self.new

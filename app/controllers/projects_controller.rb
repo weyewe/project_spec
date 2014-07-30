@@ -4,6 +4,8 @@ class ProjectsController < ApplicationController
   end
   
   def pdf_report
+    @project = Project.find_by_id params[:id]
+    @groups = @project.groups.includes(:parts => [:phases => [:conditions]])
   end
   
   
