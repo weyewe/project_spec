@@ -4,7 +4,7 @@ pdf.text "#{part.code}. #{part.name}\n\n", size: 18, style: :bold, align: :cente
 pdf.text "Total phases: #{part.phases.count}\n\n", size: 12, style: :bold, align: :center
 
 
-part.phases.each do |phase|
+part.phases.order("id ASC").each do |phase|
 	pdf.text "#{phase.code}. #{phase.name}\n\n", size: 12, style: :bold 
 	
 	
