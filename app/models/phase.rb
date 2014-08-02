@@ -28,12 +28,14 @@ class Phase < ActiveRecord::Base
     
     ordered_detail_count  = Phase.where(
       :part_id => part_id,
-      :name => current_name
+      :name => current_name,
+      :is_deleted => false
     ).count 
     
     ordered_detail = Phase.where(
       :part_id => part_id,
-      :name => current_name
+      :name => current_name,
+      :is_deleted => false
     ).first
     
     if self.persisted? and ordered_detail.id != self.id   and ordered_detail_count == 1
