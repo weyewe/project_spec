@@ -24,4 +24,4 @@ group.parts.where(:is_deleted => false).order("id ASC").each do |part|
 end
 
 
-pdf.start_new_page if counter == group_length 
+pdf.start_new_page if counter != group_length 
