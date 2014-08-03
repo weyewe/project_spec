@@ -1,10 +1,10 @@
 # part has_many phases. Phases has_many condition (precondition + post condition)
 
 pdf.text "#{part.code}. #{part.name}\n\n", size: 18, style: :bold, align: :center
-pdf.text "Total phases: #{part.phases.count}\n\n", size: 12, style: :bold, align: :center
+pdf.text "Total phases: #{part.phases.where(:is_deleted => false).count}\n\n", size: 12, style: :bold, align: :center
 
 
-part.phases.order("id ASC").each do |phase|
+part.phases.where(:is_deleted => false).order("id ASC").each do |phase|
 	pdf.text "#{phase.code}. #{phase.name}\n\n", size: 12, style: :bold 
 	
 	
@@ -15,7 +15,7 @@ part.phases.order("id ASC").each do |phase|
 		"Description"
 	]
 	
-	phase.pre_conditions.each do |condition|
+	phase.pre_conditions.where(:is_deleted => false).each do |condition|
 		data  << [condition.code, condition.description]
 	end
 	
@@ -38,7 +38,7 @@ part.phases.order("id ASC").each do |phase|
 		"Description"
 	]
 	
-	phase.post_conditions.each do |condition|
+	phase.post_conditions.where(:is_deleted => false).each do |condition|
 		data  << [condition.code, condition.description]
 	end
 	
