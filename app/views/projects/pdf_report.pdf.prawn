@@ -4,7 +4,8 @@ prawn_document( :force_download=>true, :page_size => "FOLIO") do |pdf|
 	
 	counter = 1
 	@groups.each do |group|
-		render "group", :pdf => pdf, :project => @project , :counter => counter, :group => group 
+		render "group", :pdf => pdf, :project => @project ,
+		 		:counter => counter, :group => group , :group_length => @groups.length
 		counter +=1 
 	end
 	

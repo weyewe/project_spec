@@ -22,3 +22,6 @@ group.parts.where(:is_deleted => false).order("id ASC").each do |part|
 						:counter => part_counter, :group => group, :total_parts => total_parts 
 	part_counter +=1 
 end
+
+
+pdf.start_new_page if counter == group_length 
