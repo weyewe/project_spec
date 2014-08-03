@@ -18,9 +18,10 @@ pdf.text "#{project.description}", style: :italic, align: :center
 
 
 pdf.formatted_text_box([  {:text => "Last Print: #{Time.now.strftime("%Y-%m-%d")}\n"+
-                                "Total Entity: 40\n" +
- 																"Total PreCondition: 200\n" + 
-																"Total PostCondition: 300",
+                                "Total Entity: #{project.parts_count}\n" +
+																"Total Phases: #{project.phases_count}\n" +
+ 																"Total PreCondition: #{project.pre_conditions_count}\n" + 
+																"Total PostCondition: #{project.post_conditions_count}",
                        :size => 12}
                   ],   :at => [390, pdf.cursor - 620 + 120])
 

@@ -62,4 +62,30 @@ class Project < ActiveRecord::Base
     self.where(:is_deleted => false )
   end
   
+  def parts
+    group_id_list = self.groups.where(:is_deleted => false).map{|x| x.id }
+    Part.where(:is_deleted => false, :group_id => group_id_list )
+  end
+  
+  def parts_count
+    parts.count
+  end
+  
+  def phases
+    part_id_list = self.parts.map{ |x| x.id }
+    Phase.where(:is_deleted => false, :part_id => part_id_list)
+  end
+  
+  def phases_count
+    phases.count 
+  end
+  
+  def pre_conditions_count
+    self.conditions.where(:is_deleted => false , :case =>SPEC_CASE[:pre]).count
+  end
+  
+  def post_conditions_count
+    self.conditions.where(:is_deleted => false , :case =>SPEC_CASE[:post]).count
+  end
+  
 end
