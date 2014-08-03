@@ -1,7 +1,7 @@
 # part has_many phases. Phases has_many condition (precondition + post condition)
 
-pdf.text "#{part.code}. #{part.name}\n\n", size: 18, style: :bold, align: :center
-pdf.text "Total phases: #{part.phases.where(:is_deleted => false).count}\n\n", size: 12, style: :bold, align: :center
+pdf.text "#{part.code}. #{part.name}", size: 18, style: :bold, align: :left
+pdf.text "Total phases: #{part.phases.where(:is_deleted => false).count}\n\n", size: 12, style: :bold, align: :left
 
 
 part.phases.where(:is_deleted => false).order("id ASC").each do |phase|
