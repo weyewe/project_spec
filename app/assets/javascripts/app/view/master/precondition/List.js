@@ -10,7 +10,7 @@ Ext.define('AM.view.master.precondition.List' ,{
 			// { header: 'Member', dataIndex: 'member_name' , flex : 1 },
 	 
 			{ header: 'Code',  dataIndex: 'code', flex : 1  },
-			{ header: 'Description',  dataIndex: 'description', flex : 1  },
+			{ header: 'Description',  dataIndex: 'description', flex : 2  },
 			
 		];
 

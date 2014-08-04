@@ -8,10 +8,17 @@ Ext.define('AM.view.master.phase.List' ,{
 	initComponent: function() {
 		this.columns = [
 			// { header: 'Member', dataIndex: 'member_name' , flex : 1 },
-	 
-			{ header: 'Code',  dataIndex: 'code', flex : 1  },
-			{ header: 'Name',  dataIndex: 'name', flex : 1  },
-			{ header: 'Description',  dataIndex: 'description', flex : 1  },
+	 		{
+				xtype : 'templatecolumn',
+				text : "Phase",
+				flex : 1,
+				tpl : '<b>{code}</b>' +  
+							'  <b>{name}</b>'  + '<br />'   + 
+							'{description}' 
+			},
+			// { header: 'Code',  dataIndex: 'code', flex : 1  },
+			// { header: 'Name',  dataIndex: 'name', flex : 1  },
+			// { header: 'Description',  dataIndex: 'description', flex : 1  },
 			
 		];
 
