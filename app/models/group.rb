@@ -64,7 +64,7 @@ class Group < ActiveRecord::Base
       :name => current_name
     ).first
     
-    if self.persisted? and ordered_detail.id != self.id   and ordered_detail_count == 1
+    if self.persisted? and  ordered_detail.present? and ordered_detail.id != self.id   and ordered_detail_count == 1
       self.errors.add(:name, "Nama harus uniq dalam 1 project")
       return self 
     end
@@ -119,6 +119,23 @@ class Group < ActiveRecord::Base
   
   def self.active_objects
     self.where(:is_deleted => false )
+  end
+  
+  def self.clone( old_object, new_object)
+    old_object.parts.where(:is_deleted => false ).order("id ASC").each do |part|
+      new_part = Part.create_object(
+        :name        =>  part.name,
+        :description => part.description, 
+        :group_id    => new_object.id 
+
+      )
+      
+      Part.clone( part, new_part )
+    
+    
+    end
+    
+    
   end
   
 end

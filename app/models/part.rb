@@ -38,7 +38,7 @@ class Part < ActiveRecord::Base
       :is_deleted => false
     ).first
     
-    if self.persisted? and ordered_detail.id != self.id   and ordered_detail_count == 1
+    if self.persisted? and  ordered_detail.present? and ordered_detail.id != self.id   and ordered_detail_count == 1
       self.errors.add(:name, "Nama harus uniq dalam 1 group")
       return self 
     end
@@ -93,6 +93,22 @@ class Part < ActiveRecord::Base
   
   def self.active_objects
     self.where(:is_deleted => false )
+  end
+  
+  def self.clone(old_object,  new_object)
+    old_object.phases.where(:is_deleted => false).order("id ASC").each do |phase|
+      
+      new_phase = Phase.create_object(
+        :name        =>  phase.name, 
+        :description => phase.description, 
+        :part_id     => new_object.id 
+      )
+      
+      
+      Phase.clone( phase, new_phase )
+      
+    end
+    
   end
   
 end

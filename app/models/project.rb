@@ -88,4 +88,19 @@ class Project < ActiveRecord::Base
     self.conditions.where(:is_deleted => false , :case =>SPEC_CASE[:post]).count
   end
   
+  def self.clone( old_object, new_object)
+    old_object.groups.where(:is_deleted => false).order("id ASC").each do |group|
+      new_group = Group.create_object(
+      :name        => group.name, 
+      :description => group.description,
+      :code        => group.code, 
+      :project_id  => new_object.id 
+      )
+      
+      Group.clone(group, new_group )
+       
+      
+    end
+  end
+  
 end
