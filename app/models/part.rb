@@ -95,6 +95,32 @@ class Part < ActiveRecord::Base
     self.where(:is_deleted => false )
   end
   
+  def pre_conditions
+    phase_id_list = self.phases.where(:is_deleted => false)
+    Condition.where(
+    :phase_id => phase_id_list,
+      :is_deleted => false, 
+      :case => SPEC_CASE[:pre]
+    )
+  end
+  
+  def pre_conditions_count
+    pre_conditions.count
+  end
+  
+  def post_conditions
+    phase_id_list = self.phases.where(:is_deleted => false)
+    Condition.where(
+      :phase_id => phase_id_list,
+      :is_deleted => false, 
+      :case => SPEC_CASE[:post]
+    )
+  end
+  
+  def post_conditions_count
+    post_conditions.count
+  end
+  
   def self.clone(old_object,  new_object)
     old_object.phases.where(:is_deleted => false).order("id ASC").each do |phase|
       
@@ -110,5 +136,7 @@ class Part < ActiveRecord::Base
     end
     
   end
+  
+  
   
 end

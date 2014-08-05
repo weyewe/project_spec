@@ -5,6 +5,8 @@ Ticketie::Application.routes.draw do
   resources :projects 
   get 'projects_basic' => 'projects#basic', :as => :projects_basic, :method => :get
   get 'projects_pdf/:id' => 'projects#pdf_report' , :as => :projects_pdf, :method => :get
+  get 'entity_pdf/:id' => 'parts#part_report' , :as => :parts_pdf, :method => :get
+  get 'phase_pdf/:id' => 'phases#phase_report' , :as => :phases_pdf, :method => :get
   
   
   namespace :api do

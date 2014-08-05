@@ -43,6 +43,12 @@ Ext.define('AM.view.master.part.List' ,{
 			disabled: true
 		});
 		
+		this.downloadPDF  =  new Ext.Button({
+			text: 'download PDF',
+			action: 'downloadPDF',
+			disabled: true
+		});
+		
 		// this.deactivateObjectButton = new Ext.Button({
 		// 	text: 'Deactivate',
 		// 	action: 'deactivateObject',
@@ -60,6 +66,7 @@ Ext.define('AM.view.master.part.List' ,{
 
 
 		this.tbar = [this.addObjectButton, this.editObjectButton, this.deleteObjectButton,
+		this.downloadPDF, 
 		  			// '-', 
 		// this.deactivateObjectButton
 		
@@ -90,6 +97,7 @@ Ext.define('AM.view.master.part.List' ,{
 	enableRecordButtons: function() {
 		this.editObjectButton.enable();
 		this.deleteObjectButton.enable();
+		this.downloadPDF.enable();
 		// this.deactivateObjectButton.enable();
 		
 	},
@@ -97,6 +105,7 @@ Ext.define('AM.view.master.part.List' ,{
 	disableRecordButtons: function() {
 		this.editObjectButton.disable();
 		this.deleteObjectButton.disable();
+		this.downloadPDF.disable();
 		// this.deactivateObjectButton.disable();
 	}
 });

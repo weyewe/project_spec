@@ -120,4 +120,28 @@ class Phase < ActiveRecord::Base
     end
   end
   
+  def pre_conditions
+    Condition.where(
+    :phase_id => self.id ,
+      :is_deleted => false, 
+      :case => SPEC_CASE[:pre]
+    )
+  end
+  
+  def pre_conditions_count
+    pre_conditions.count 
+  end
+  
+  def post_conditions
+    Condition.where(
+    :phase_id => self.id ,
+      :is_deleted => false, 
+      :case => SPEC_CASE[:post]
+    )
+  end
+  
+  def post_conditions_count
+    post_conditions.count 
+  end
+  
 end

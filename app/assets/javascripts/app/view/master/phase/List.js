@@ -46,6 +46,12 @@ Ext.define('AM.view.master.phase.List' ,{
 		// 	disabled: true
 		// });
 		
+		this.downloadPDF  =  new Ext.Button({
+			text: 'download PDF',
+			action: 'downloadPDF',
+			disabled: true
+		});
+		
 		this.searchField = new Ext.form.field.Text({
 			name: 'searchField',
 			hideLabel: true,
@@ -57,6 +63,7 @@ Ext.define('AM.view.master.phase.List' ,{
 
 
 		this.tbar = [this.addObjectButton, this.editObjectButton, this.deleteObjectButton,
+		this.downloadPDF, 
 		  			// '-', 
 		// this.deactivateObjectButton
 		
@@ -87,6 +94,7 @@ Ext.define('AM.view.master.phase.List' ,{
 	enableRecordButtons: function() {
 		this.editObjectButton.enable();
 		this.deleteObjectButton.enable();
+		this.downloadPDF.enable();
 		// this.deactivateObjectButton.enable();
 		
 	},
@@ -94,6 +102,7 @@ Ext.define('AM.view.master.phase.List' ,{
 	disableRecordButtons: function() {
 		this.editObjectButton.disable();
 		this.deleteObjectButton.disable();
+		this.downloadPDF.disable();
 		// this.deactivateObjectButton.disable();
 	}
 });

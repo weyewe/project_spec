@@ -154,7 +154,15 @@ Ext.define('AM.controller.Parts', {
 			},
 			'postconditionlist button[action=deleteObject]': {
 				click: this.deletePostConditionObject
-			}
+			},
+			
+			'partlist button[action=downloadPDF]': {
+        click: this.downloadEntityPDF
+			}	,
+			
+			'phaselist button[action=downloadPDF]': {
+        click: this.downloadPhasePDF
+			}	,
 
     });
   },
@@ -934,6 +942,51 @@ Ext.define('AM.controller.Parts', {
 		  } else {
 		    grid.disableRecordButtons();
 		  }
+		},
+		
+		
+		downloadEntityPDF: function(){
+			var record = this.getList().getSelectedObject();
+
+			if(!record){return;}
+			var ps_width = 380; 
+			var ps_height = 550; 
+			var id = record.get("id")
+
+			// var anotherwindow = window.open(
+			// 	'reports/billofsale.php?id='+id,'PDF','width='+ps_width+',height='+ps_height+',resizable');
+				// var anotherwindow = window.open(
+				// 	'projects/'+id,
+				// 	'PDF',
+				// 	'width='+ps_width+',height='+ps_height+',resizable');
+				// 	
+
+				var anotherwindow = window.open(
+					'entity_pdf/'+id + ".pdf" );				
+
+			// window.open( '/bookings/payment_receipt/'+ record.get('id')  );
+		},
+		
+		downloadPhasePDF: function(){
+			var record = this.getPhaseList().getSelectedObject();
+
+			if(!record){return;}
+			var ps_width = 380; 
+			var ps_height = 550; 
+			var id = record.get("id")
+
+			// var anotherwindow = window.open(
+			// 	'reports/billofsale.php?id='+id,'PDF','width='+ps_width+',height='+ps_height+',resizable');
+				// var anotherwindow = window.open(
+				// 	'projects/'+id,
+				// 	'PDF',
+				// 	'width='+ps_width+',height='+ps_height+',resizable');
+				// 	
+
+				var anotherwindow = window.open(
+					'phase_pdf/'+id + ".pdf" );				
+
+			// window.open( '/bookings/payment_receipt/'+ record.get('id')  );
 		},
 
 
