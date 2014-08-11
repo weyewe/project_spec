@@ -138,4 +138,16 @@ class Group < ActiveRecord::Base
     
   end
   
+  def pre_conditions_count
+    result = 0 
+    self.parts.where(:is_deleted => false ).each {|x| result += x.pre_conditions_count }
+    return result 
+  end
+  
+  def post_conditions_count
+    result = 0 
+    self.parts.where(:is_deleted => false ).each {|x| result += x.post_conditions_count }
+    return result
+  end
+  
 end

@@ -26,10 +26,16 @@ Ext.define('AM.view.master.PartList' ,{
 			emptyText : "Search",
 			checkChangeBuffer: 300
 		});
+		
+		this.downloadPDF  =  new Ext.Button({
+			text: 'DL',
+			action: 'downloadPDF',
+			disabled: true
+		});
 
 
 
-		this.tbar = [this.searchField ];
+		this.tbar = [this.searchField,	this.downloadPDF  ];
 		this.bbar = Ext.create("Ext.PagingToolbar", {
 			store	: this.store, 
 			displayInfo: true,
@@ -49,10 +55,12 @@ Ext.define('AM.view.master.PartList' ,{
 	enableRecordButtons: function() {
 		this.editObjectButton.enable();
 		this.deleteObjectButton.enable();
+		this.downloadPDF.enable();
 	},
 
 	disableRecordButtons: function() {
 		this.editObjectButton.disable();
 		this.deleteObjectButton.disable();
+		this.downloadPDF.disable();
 	}
 });

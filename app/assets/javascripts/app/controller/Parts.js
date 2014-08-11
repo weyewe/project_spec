@@ -160,6 +160,11 @@ Ext.define('AM.controller.Parts', {
         click: this.downloadEntityPDF
 			}	,
 			
+			'partProcess masterprojectgroupList mastergroupList button[action=downloadPDF]' : {
+				click: this.downloadModulePDF
+			},
+			
+			
 			'phaselist button[action=downloadPDF]': {
         click: this.downloadPhasePDF
 			}	,
@@ -253,11 +258,13 @@ Ext.define('AM.controller.Parts', {
 		var preConditionList = me.getPreConditionList();
 		var postConditionList = me.getPostConditionList();
 		
+		console.log("Parent Selection2 change");
 		
 		if (parentList2.getSelectionModel().hasSelection()) {
 			// reload 
 			var row = parentList2.getSelectionModel().getSelection()[0];
 			var id = row.get("id"); 
+			parentList2.enableRecordButtons();
 			
 			if( me.selectedParentId2 !==  id){
 				me.selectedParentId2 = id; 
@@ -279,6 +286,8 @@ Ext.define('AM.controller.Parts', {
 			
 			// enable add button 
 			grid.enableAddButton();
+		}else{
+			parentList2.disableRecordButtons();
 		}
   },
 	
@@ -963,6 +972,29 @@ Ext.define('AM.controller.Parts', {
 
 				var anotherwindow = window.open(
 					'entity_pdf/'+id + ".pdf" );				
+
+			// window.open( '/bookings/payment_receipt/'+ record.get('id')  );
+		},
+		
+		
+		downloadModulePDF: function(){
+			var record = this.getParentList2().getSelectedObject();
+
+			if(!record){return;}
+			var ps_width = 380; 
+			var ps_height = 550; 
+			var id = record.get("id")
+
+			// var anotherwindow = window.open(
+			// 	'reports/billofsale.php?id='+id,'PDF','width='+ps_width+',height='+ps_height+',resizable');
+				// var anotherwindow = window.open(
+				// 	'projects/'+id,
+				// 	'PDF',
+				// 	'width='+ps_width+',height='+ps_height+',resizable');
+				// 	
+
+				var anotherwindow = window.open(
+					'module_pdf/'+id + ".pdf" );				
 
 			// window.open( '/bookings/payment_receipt/'+ record.get('id')  );
 		},
